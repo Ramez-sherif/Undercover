@@ -1,0 +1,106 @@
+﻿@using PlaySafe.Data
+@model IEnumerable<ViewCommentVM>
+@inject dbContext _context;
+
+@{
+    ViewData["Title"] = "All Comments";
+   
+}
+
+<h3 style="color:#e8e6e3">Comments</h3>
+<hr>
+
+<section>
+  @*  <div class="container my-5 py-5 text-black">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-11 col-lg-9 col-xl-7">
+                     @if (Model.Any())
+                     {
+                        foreach (var comment in Model)
+                        {
+                        var image = _context.player.Where(x=>x.userId == comment.userId).FirstOrDefault();
+
+                        var photoPath = "images" + "/" + comment.userId + "/" + (image.photo ?? "defaultImage.jpg");
+                             <div class="d-flex flex-start mb-4">
+                                 <img class="rounded-circle shadow-1-strong me-3"
+                                  src="~/@photoPath" alt="avatar" width="65"
+                                   height="65" />
+
+                            <div class="card w-100" style=" border: 2px solid rgb(57, 62, 64);">
+                                <div class="card-body p-4" style="background-color:#121212;color:white">
+                                        <div class="">
+                                       
+                                        <h5>@comment.name</h5>
+                                            
+                                        <p>
+                                                  @comment.comment
+                                         </p>
+                                       
+                                        </div>
+                                    
+                                     </div>
+                                 </div>
+                             </div>
+                              
+                        }
+                     }
+            </div>
+                               
+        </div>
+    </div>
+*@
+    @{
+       // var photoPath = "images" + "/" + ViewBag.id + "/" + (ViewBag.photo ?? "defaultImage.jpg");
+    }
+    <style>
+        .box-shadow {
+            background-color: #202324;
+            /*    background-color: #AA1111*/
+            color: black;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 2px 2px 10px black;
+            justify-content: center;
+        }
+    </style>
+     @if (Model.Any())
+          {
+        foreach (var comment in Model)
+        {
+            var image = _context.player.Where(x => x.userId == comment.userId).FirstOrDefault();
+            var photoPath = "images" + "/" + comment.userId + "/" + (image.photo ?? "defaultImage.jpg");
+            <div class="container my-5 py-5 text-white">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-20 col-lg-16 col-xl-12">
+                        <form enctype="multipart/form-data" asp-action="comment">
+                            <div class="box-shadow" style="height:150px">
+                                <div class="d-flex flex-start w-100">
+
+
+
+
+                                    <img class="rounded-circle shadow-1-strong me-3"
+                                 src="~/@photoPath" alt="avatar" width="65"
+                                 height="65" />
+
+                                    <div class="w-100">
+                                        <h5 style="color:#e8e6e3">@comment.name</h5>
+                                        <div class="" style="">
+                                            <p style="height:70px; background-color: #121212;border: 2px solid rgb(57, 62, 64); color:white">@comment.comment</p>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+        }
+
+              
+</section>

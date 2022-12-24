@@ -1,0 +1,8 @@
+﻿<h1>Warning</h1>
+<br>
+<p>Delete @ViewBag.id</p>
+<p>If you delete this user all the account he created will also be deleted </p>
+<br>
+<form method="post" asp-action="Delete" asp-route-id="@ViewBag.id">
+    <button type = "submit" class="btn btn-danger">Delete</button>
+</form>

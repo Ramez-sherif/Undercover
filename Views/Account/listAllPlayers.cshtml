@@ -1,0 +1,72 @@
+﻿@model IEnumerable<PlaySafe.ViewModels.playerViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3 style ="color:#e8e6e3">Players</h3>
+
+<p>
+    <a asp-action="register" style="color:#e8e6e3" >Create New</a>
+</p>
+<table class="table" style="color:#e8e6e3">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.createdDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phoneNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.points)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.createdDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.phoneNum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.points)
+                </td>
+                    @{
+                        var id = Context.Session.GetString(item.userName);
+                    }
+                <td>
+                    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@id">Edit</a> |
+                    <a asp-action="playerDetails" class="btn btn-primary" asp-route-id="@id">Details</a> |
+                </td>
+                <td>
+                    <form asp-action="Delete" method="Post" asp-route-id="@id">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <a asp-action="addPoints" style="background-color:#590010;color:white" class="btn" asp-route-id="@id">Add Points</a> |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

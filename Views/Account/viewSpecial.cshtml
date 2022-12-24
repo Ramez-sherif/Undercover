@@ -1,0 +1,35 @@
+﻿@model IEnumerable<specials>
+@{
+
+}
+<style>
+    .card{
+        background-color: #131516;
+        border-color: rgba(140, 130, 115, 0.13);
+    }
+</style>
+
+
+<div class="row ">
+
+    @if (Model.Any())
+    {
+        foreach (var special in Model)
+        {
+            var photoPath = "specials" + "/" + special.id + "/" + (special.photo ?? "defaultImage.jpg");
+            <div class="col mb-4 ">
+                <div class="card float-md-start" style="width: 18rem ;margin:auto;">
+                    <img src="~/@photoPath" class="card-img-top" alt="..." height="262" width="262">
+                    <div class="card-body" >
+                        <h6 class="card-title">Description:</h6>
+                        <p class="card-text">@special.description</p>
+                        <p> <h6>Cost:</h6> @special.price LE </p>
+
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+

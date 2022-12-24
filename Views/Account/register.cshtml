@@ -1,0 +1,64 @@
+﻿@model PlaySafe.ViewModels.registerViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h3>Registration</h3>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form enctype="multipart/form-data" asp-action="register">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">FullName:</label>
+                <input asp-for="name" class="form-control" style=" background-color:#131516;color:white;" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Username:</label>
+                <input asp-for="userName" class="form-control" style=" background-color:#131516;color:white;" />
+                <span asp-validation-for="userName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Password:</label>
+                <input asp-for="password" class="form-control" style=" background-color:#131516;color:white;" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Confirm Passowrd:</label>
+                <input asp-for="confirmPassword" class="form-control" style=" background-color:#131516;color:white;" />
+                <span asp-validation-for="confirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Phone Number:</label>
+                <input asp-for="phoneNum" class="form-control" style=" background-color:#131516;color:white;" />
+                <span asp-validation-for="phoneNum" class="text-danger"></span>
+            </div>
+
+            @*@if (Context.Session.GetString("userType") == "Guard")
+            {
+            <div class="form-group row">
+            <label class="control-label" for="photo">Photo</label>
+            <div class="custom-file">
+            <input asp-for="photo" class="form-control custom-file-input" />
+            <span asp-validation-for="photo" class="text-danger"></span>
+            </div>
+            </div>
+            }*@
+            <br>
+            <div class="form-group ">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

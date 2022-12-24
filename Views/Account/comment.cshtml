@@ -1,0 +1,140 @@
+﻿@{
+    var name = Context.Session.GetString("Name");
+}
+<style>
+
+    .chat {
+        border: 2px solid rgb(57, 62, 64);
+        background-color: #121212;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+        height: 200px;
+        width: auto;
+        overflow: auto;
+        word-wrap: break-word;
+    }
+</style>
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-2">
+            <input type="hidden" value="@name" id="userInput" />
+        </div>
+
+        <label id="userShowInput"> <h2 style="color:#e8e6e3">Welcome to our chatroom</h2></label>
+        <br>
+    </div>
+
+    <div>
+        <div>
+
+            <div class="chat">
+                <ul id="messagesList"></ul>
+            </div>
+
+        </div>
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label class="control-label"style="color:#e8e6e3">Message:</label>
+        <input type="text" id="messageInput" class="form-control" style="background-color:#121212;color:white" />
+        @* <div class="form-control"><input type="text" id="messageInput" /></div>*@
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">
+            <input type="submit" style="background-color:#590010;color:white;" class="btn" id="sendButton" value="Send Message" />
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+
+<script>
+    "use strict";
+    document.getElementById("");
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+    //Disable the send button until connection is established.
+    document.getElementById("sendButton").disabled = true;
+
+    connection.on("ReceiveMessage", function (user, message) {
+        var li = document.createElement("li");
+        document.getElementById("messagesList").appendChild(li);
+        // We can assign user-supplied strings to an element's textContent because it
+        // is not interpreted as markup. If you're assigning in any other way, you
+        // should be aware of possible script injection concerns.
+        li.textContent = `${user} : ${message}`;
+    });
+
+    connection.start().then(function () {
+        document.getElementById("sendButton").disabled = false;
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    document.getElementById("sendButton").addEventListener("click", function (event) {
+        var user = document.getElementById("userInput").value;
+        var message = document.getElementById("messageInput").value;
+        connection.invoke("SendMessage", user, message).catch(function (err) {
+            return console.error(err.toString());
+            
+        });
+        event.preventDefault();
+        document.getElementById("messageInput").value="";
+    });
+</script>
+@model PlaySafe.Models.comments
+
+@{
+    var photoPath = "images" + "/" + ViewBag.id + "/" + (ViewBag.photo ?? "defaultImage.jpg");
+}
+<style>
+    .box-shadow {
+        background-color: #202324;
+        /*    background-color: #AA1111*/
+        color: black;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 2px 2px 10px black;
+        justify-content: center;
+    }
+
+    
+</style>
+<div class="container my-5 py-5 text-white">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-20 col-lg-16 col-xl-12">
+            <form enctype="multipart/form-data" asp-action="comment">
+                <div class="box-shadow">
+                    <div class="d-flex flex-start w-100">
+                        <img class="rounded-circle shadow-1-strong me-3"
+                             src="~/@photoPath" alt="avatar" width="65"
+                             height="65" />
+                        <div class="w-100">
+                            <h5 style="color:#e8e6e3">Leave a comment</h5>
+
+                            <div class="form-outline">
+                                <textarea class="form-control" id="textAreaExample" name="commentText" rows="4" style="background-color:#121212;color:white"></textarea>
+                                <label class="form-label" for="textAreaExample" style="color:#e8e6e3">What is your view?</label>
+                            </div>
+                            <div class="d-flex justify-content-between mt-3">
+
+                                <button type="submit"onclick="preventreload()" style="background-color:#590010;color:white;" class="btn">
+                                    Send <i class="fas fa-long-arrow-alt-right ms-1"></i>
+
+                                </button>
+                            </div>
+                                <div style="float:left" asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

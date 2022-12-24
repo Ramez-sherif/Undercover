@@ -1,0 +1,39 @@
+﻿@model IEnumerable<specials>
+@{
+
+}
+<h3 style="color:#e8e6e3">Remove Specials</h3>
+<hr>
+<style>
+    .card {
+        border-color: rgba(140, 130, 115, 0.13);
+        background-color: #131516;
+    }
+</style>
+
+
+<div class="row ">
+
+    @if(Model==null){}
+    else if (Model.Any())
+    {
+        foreach (var special in Model)
+        {
+            var photoPath = "specials" + "/" + special.id + "/" + (special.photo ?? "defaultImage.jpg");
+            <div class="col mb-4 ">
+                <div class="card float-md-start" style="width: 18rem ;margin:auto;">
+                    <img src="~/@photoPath" class="card-img-top" alt="..." height="262" width="262">
+                    <div class="card-body">
+                        <h6 class="card-title">Description:</h6>
+                        <p class="card-text">@special.description</p>
+                        <hr>
+                        <p> <h6>Cost:</h6> @special.price LE </p>
+                  
+                     
+                    </div>
+                    <form method="post" asp-action="RemoveSpecials"> <button type="submit" style="background-color:#590010;color:white; margin-left: 36%; margin-bottom: 4%;" class="btn" asp-route-id="@special.id"> Remove </button> </form>
+                </div>
+            </div>
+        }
+    }
+</div>

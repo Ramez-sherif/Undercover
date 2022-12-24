@@ -1,0 +1,55 @@
+﻿@model PlaySafe.ViewModels.registerViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h3 style="color:#e8e6e3">Details</h3>
+ <hr>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Name:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.name)
+        </dd>
+        <dt class="col-sm-2">
+            Username:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.userName)
+        <dt class="col-sm-2">
+            Created Date:
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.createdDate)
+        </dd>
+        <dt class="col-sm-2">
+            Phone Number:
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.phoneNum)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id=@ViewBag.id>Edit</a> 
+    <h1>@ViewBag.userrole</h1>
+    @if(User.IsInRole("Owner"))
+    {
+        
+        if(Model.status == true){//use is not blocked
+            <form asp-action="Block" asp-route-id="@ViewBag.id">
+            <button type = "submit" class="btn btn-danger" >Block</button>
+            </form>
+        }
+        else if(Model.status == false){//if user is blocked
+            <form asp-action="UnBlock" asp-route-id="@ViewBag.id">
+                <button type="submit" class="btn btn-primary">UnBlock</button>
+            </form>
+        }
+    }
+    
+</div>

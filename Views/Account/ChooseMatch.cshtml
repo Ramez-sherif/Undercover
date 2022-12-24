@@ -1,0 +1,99 @@
+﻿@model matchViewModel
+@{
+    ViewData["Title"] = "ChooseMatch";
+}
+
+<br>
+<h3 style="color:#e8e6e3">Reserve Your Match Ticket</h3>
+<hr>
+<style>
+    .box-shadow {
+        background-color: #315B83;
+        /*color: white;*/
+        padding: 10px;
+        border-radius: 4px;
+        /* box-shadow: 2px 2px 10px black;*/
+        box-shadow: rgb(0,0,0) 2px 2px 10px;
+        black justify-content: center;
+    }
+
+  
+</style>
+<div class="container my-5 py-5 text-white">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-20 col-lg-16 col-xl-12">
+            <form enctype="multipart/form-data" id="form_submit" asp-action="ChooseMatch">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="box-shadow">
+                    <div class="form-group">
+                        Choose match Category:<br />
+                        <select id="costs" asp-for="matchCost" class="form-control" disabled=true >
+                            @foreach (var item in ViewBag.costs)
+                            {
+                                <option>@item</option>
+                            }
+                        </select>
+                        <span asp-validation-for="matchCost" class="text-danger"></span>
+                    </div>
+                    <br />
+
+                    <div class="form-outline mb-4">
+                        <input asp-for="customPrice" type="number" min="21" max="1000" placeholder="More" disabled=false  />
+                        <input asp-for="isCustomPrice" id="morePoints" type="checkbox" style="color:#d1cdc7" /> Custom Category
+                        <br />
+
+                        <span asp-validation-for="customPrice" class="text-danger"></span>
+
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <input onclick="confirmation()" value="Save" class="btn" style="background-color:orange;color:black"  type="text" readonly>
+                        <input asp-for="withPoints" type="checkbox" style="color:#d1cdc7" /> Pay with points
+                        <br>
+
+
+                        <br>
+                        <div class="points" style="color:#d1cdc7">Your Points: @ViewBag.Points</div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function confirmation() {
+        var answer = confirm("Are you sure you want to proceed?");
+        console.log(answer);
+        if (answer) {
+            var form = document.getElementById("form_submit");
+            form.submit();
+        }
+    }
+</script>
+<script>
+
+    const morePoints = document.getElementById("morePoints");
+    if (morePoints.checked) {
+        document.getElementById("costs").disabled = true;
+        document.getElementById("customPrice").disabled = false;
+    } else {
+        document.getElementById("costs").disabled = false;
+        document.getElementById("customPrice").disabled = true;
+    }
+
+    document.getElementById("morePoints").addEventListener("click", function () {
+        if (morePoints.checked) {
+            document.getElementById("costs").disabled = true;
+            document.getElementById("customPrice").disabled = false;
+        } else {
+            document.getElementById("costs").disabled = false;
+            document.getElementById("customPrice").disabled = true;
+        }
+
+    });
+</script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

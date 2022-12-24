@@ -1,0 +1,182 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+    .listtt li:hover{
+        background-color: #3D72A4;
+        border-radius:25px;
+        border:2px solid;
+        color:white;
+    }
+
+    .listtt a {
+        color: white ;
+    }
+
+    .listtt a:hover {   
+        color: white;
+    }
+    .nav-link{
+       
+    }
+
+  
+    </style>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        @ViewData["Title"] - UnderCover
+        </title>
+        
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PlaySafe.styles.css" asp-append-version="true" />
+    <link rel="icon" href="~/images/icon/uc.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+@{
+    var user = await userManager.GetUserAsync(User);
+    string id = null;
+    if(signInManager.IsSignedIn(User))
+   {
+         id = user.Id;
+   }
+}
+<body>
+    <header>
+        @if(signInManager.IsSignedIn(User)){
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar bg-dark  box-shadow mb-3">
+            <div class="container-fluid">                  
+                <a class="navbar-brand" asp-area="" asp-controller="Account" asp-action="viewSpecial">UnderCover</a>
+                    <button class="navbar-toggler" style=" background-color: #0d6efd;" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                     <i class="fa fa-bars"></i>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1 listtt">
+            @if(User.IsInRole("Owner")){
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>                              
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="register">Add Owners</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="registerForAdmin">Add Admins</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="listAllAdmins">View Owners</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </li>
+                <li class="nav-item">
+                    <form method="post" asp-action="logOut" asp-controller="Account">
+                    <button type="submit" class="nav-link btn btn-link py-0" style=" color:#2394fD">log Out @User.Identity.Name</button>
+                    </form>
+                </li>
+            }else if(User.IsInRole("Admin")){
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="viewSpecial">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="AddSpecials">Add Specials</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="RemoveSpecials">Remove Specials</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="register">Add Guards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="listAllGuards">View Guards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="listAllPlayers">View Players</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="readcomment">View Comments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </li>
+                <li class="nav-item">
+                    <form method="post" asp-action="logOut" asp-controller="Account">
+                        <button type="submit" class="nav-link btn btn-link py-0">log Out @User.Identity.Name</button>
+                    </form>
+                </li>
+            }else if(User.IsInRole("Guard")){
+                <li class="nav-item">
+                     <a class="nav-link " asp-area="" asp-controller="Account" asp-action="viewSpecial">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="registerForPlayer">Add Players</a>
+                </li>
+                  <li class="nav-item">
+                         <a class="nav-link " asp-area="" asp-controller="Account" asp-action="listAllPlayers">View Players</a>
+                     </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </li>
+                <li class="nav-item">
+                    <form method="post" asp-action="logOut" asp-controller="Account">
+                        <button type="submit" class="nav-link btn btn-link py-0">log Out @User.Identity.Name</button>
+                    </form>
+                </li>
+            }else if(User.IsInRole("Player")){
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="viewSpecial">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-area="" asp-controller="Account" asp-action="ChooseMatch">Choose Match</a>
+                </li>
+                <li class="nav-item">
+                     <a class="nav-link " asp-area="" asp-controller="Account" asp-action="playerDetails" asp-route-id="@id">Details</a>
+                </li>
+                <li class="nav-item">
+                     <a class="nav-link " asp-area="" asp-controller="Account" asp-action="comment">Chat</a>
+                </li>
+                <li class="nav-item">
+                    <form method="post" asp-action="logOut" asp-controller="Account">
+                        <button type="submit" class="nav-link btn btn-link py-0">log Out @User.Identity.Name</button>
+                     </form>
+                </li>
+            }
+                            
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        }
+ @*
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="rarw">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Adminstration" asp-action="createRole">Role</a>
+        </li>*@
+    
+        
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class=" footer text-muted" >
+        <div class="container">
+            &copy; 2022 - UndderCover - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
